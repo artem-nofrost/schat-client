@@ -1,0 +1,150 @@
+html {
+    .chat-container-chat {
+        border-radius: 16px;
+        background-color: #d4d4d4;
+        box-shadow: 0 0 8px #8537867a;
+        .main-col {
+            @media screen and (max-width: 575.5px) {
+                padding: 0 !important;
+            }
+            .card-chat {
+                border-radius: 16px;
+                cursor: pointer;
+                &:hover {
+                    background: #efefef;
+                }
+                .img-chat {
+                    width: 115px;
+                    height: 115px;
+                    object-fit: cover;
+                    @media screen and (max-width: 767.5px) {
+                        width: 75px;
+                        height: 75px;
+                    }
+                    @media screen and (max-width: 575.5px) {
+                        width: 50px;
+                        height: 50px;
+                    }
+                    @media screen and (max-width: 380px) {
+                        width: 40px;
+                        height: 40px;
+                    }
+                }
+                .cont-img-chat {
+                    position: relative;
+                    width: fit-content;
+                    height: fit-content;
+                    .status-circle {
+                        position: absolute;
+                        bottom: 9px;
+                        right: 9px;
+                        width: 15px;
+                        height: 15px;
+                        border-radius: 50%;
+                        background-color: grey;
+                        border: 2px solid white;
+                        @media screen and (max-width: 767.5px) {
+                            bottom: 3px;
+                            right: 3px;
+                        }
+                        @media screen and (max-width: 575.5px) {
+                            width: 12px;
+                            height: 12px;
+                            bottom: 1px;
+                            right: 1px;
+                        }
+                        @media screen and (max-width: 380px) {
+                            width: 10px;
+                            height: 10px;
+                            bottom: 1px;
+                            right: 1px;
+                        }
+                        .online {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 50%;
+                            background-color: #3bba3b !important;
+                        }
+                    }
+                }
+
+                .name-msg,
+                .last-msg {
+                    text-align: left !important;
+                    .svg-read {
+                        height: 1rem;
+                        margin-right: 0.5rem;
+                    }
+                }
+
+                .last-msg {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: inline-block;
+                    width: 100%;
+                }
+                .name-msg {
+                    @media screen and (max-width: 575.5px) {
+                        font-size: 1.5rem !important;
+                    }
+                }
+                .cont-time-msg {
+                    padding-left: 0 !important;
+                    .time-msg {
+                        text-align: right !important;
+                        @media screen and (max-width: 340px) {
+                            position: absolute;
+                            right: 1.5rem;
+                            margin-right: 0;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+
+                .card-body {
+                    @media screen and (max-width: 575.5px) {
+                        padding: 0 !important;
+                    }
+                }
+                .count-unread {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 22px;
+                    height: 22px;
+                    right: 2.5rem;
+                    bottom: 1.5rem;
+                    text-align: center;
+                    background: white;
+                    border-radius: 50%;
+                    box-shadow: 0 0 8px #8537867a;
+                    @media screen and (max-width: 767.5px) {
+                        right: 1.5rem;
+                    }
+                    @media screen and (max-width: 575.5px) {
+                        width: 15px;
+                        height: 15px;
+                        right: 1rem;
+                    }
+                    @media screen and (max-width: 380px) {
+                        bottom: 1rem;
+                    }
+                }
+            }
+            .unread-msg {
+                background: #efefef;
+            }
+        }
+    }
+    .empty-dialogs {
+        height: 400px;
+        .row {
+            height: 100%;
+            .cont-empty-text {
+                text-align: center;
+            }
+        }
+    }
+}

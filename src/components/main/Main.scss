@@ -1,0 +1,35 @@
+@import '../../style/_variables';
+@import '../../style/_animations';
+
+.cont-main-buttons {
+    @media screen and (max-width: 575.5px) {
+        justify-content: center;
+    }
+    .main-button {
+        color: white !important;
+        background-color: $lightViolet !important;
+        border-color: $lightViolet !important;
+        border-radius: 16px !important;
+        &:hover,
+        &:active {
+            text-decoration: none !important;
+            background-color: $darkViolet !important;
+            border-color: $darkViolet !important;
+        }
+    }
+}
+
+.main-caption,
+.main-text {
+    @media screen and (max-width: 575.5px) {
+        text-align: center;
+    }
+}
+
+.img-mobile {
+    animation: showFromTop 1s ease 1;
+}
+
+.cont-main-buttons {
+    gap: 15px;
+}

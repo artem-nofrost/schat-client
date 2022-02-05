@@ -1,0 +1,46 @@
+{
+    "header": {
+      "set": "Settings",
+      "signout": "Sign out",
+      "search": "Search"
+    },
+    "error": "Error: ",
+    "auth": {
+      "authorization": "Authorization",
+      "registration": "Registration",
+      "register": "Register",
+      "signin": "Sign in",
+      "noaccount": "Don't have an account?",
+      "name": "Name",
+      "surname": "Surname",
+      "birth": "Date of Birth",
+      "city": "City",
+      "choosecountry": "Choose country",
+      "entercity": "Enter city",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "email": "Email",
+      "pass": "Password"
+    },
+    "main": {
+      "title": "Start chat now!",
+      "desc": "Powerful chat messenger. Enjoy your chat for free at any time!"
+    },
+    "profile": {
+      "add": "Add contact",
+      "phone": "Phone:",
+      "notlisted": "Not listed",
+      "email": "Email:",
+      "city": "City:",
+      "general": "General ",
+      "info": "information",
+      "aboutme": "Information \"About me\" is not specified"
+    },
+    "search": {
+      "found": "Found: ",
+      "profile": "Profile",
+      "message": "Message"
+    }
+  }
+

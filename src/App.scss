@@ -1,0 +1,74 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto&display=swap);
+@import 'style/_variables';
+@import 'style/_animations';
+
+html {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    animation: fade_in 1.5s ease 1;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: rgb(0, 0, 0);
+    box-sizing: border-box;
+}
+
+body,
+div {
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+        background-color: #f9f9fd;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #cecece, #929292);
+    }
+}
+
+a {
+    color: #3b2a85 !important;
+    text-decoration: none !important;
+    &:hover {
+        text-decoration: underline !important;
+    }
+}
+
+input {
+    border-color: #c5c5c5 !important;
+}
+
+input:focus {
+    border-color: #c5c5c5 !important;
+    box-shadow: 0 0 0 #80bdff00 !important;
+}
+
+button:focus {
+    box-shadow: 0 0 0 #80bdff00 !important;
+}
+
+#site-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .preload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        img {
+            max-width: 70px;
+            max-height: 70px;
+            animation: fly 0.2s infinite linear;
+        }
+    }
+}
+
+.light {
+    animation: fade_out 0.25s ease 1;
+}

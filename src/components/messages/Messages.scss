@@ -1,0 +1,115 @@
+@import '../../style/_variables';
+
+html {
+    .chat-container-msg {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 100%;
+        border-radius: 16px;
+        background-color: #d4d4d4;
+        box-shadow: 0 0 8px #8537867a;
+        .cont-msg {
+            flex: 1;
+            background: white;
+            border-radius: 16px;
+            .msg-online-status {
+                color: #3bba3b;
+                font-weight: 500;
+                .offline {
+                    color: #e94b4b;
+                }
+            }
+            .msglist-cont {
+                position: relative;
+                display: flex;
+                flex: 1;
+                .msglist-pos {
+                    display: flex;
+                    flex-direction: column;
+                    position: absolute;
+                    justify-content: flex-end;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    .overflow-auto {
+                        .message-cont {
+                            display: flex;
+                            padding: 1rem 0;
+                            &:nth-last-child(2) {
+                                margin-bottom: 0.5rem !important;
+                            }
+                            .message {
+                                position: relative;
+                                max-width: 50%;
+                                .current-msg {
+                                    width: auto;
+                                    padding: 1rem;
+                                    border-radius: 16px;
+                                    box-shadow: 0 0 5px #8537867a;
+                                    .current-msg-time {
+                                        display: flex;
+                                        justify-content: flex-end;
+                                        margin-right: -0.5rem;
+                                        margin-bottom: -0.5rem;
+                                    }
+                                    span {
+                                        overflow-wrap: break-word;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .message-in {
+                        justify-content: flex-start;
+                        .current-msg {
+                            background: #efefef;
+                            border-top-left-radius: 0 !important;
+                        }
+                    }
+                    .message-out {
+                        justify-content: flex-end;
+                        .current-msg {
+                            background: #9a669b4d;
+                            border-top-right-radius: 0 !important;
+                        }
+                    }
+                }
+                .no-messages {
+                    display: flex;
+                    align-items: center;
+                    margin: auto;
+                }
+            }
+            .row-msg-input {
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: stretch;
+                min-width: 100%;
+                border-radius: 0.25rem !important;
+                input {
+                    display: flex;
+                    height: 3rem;
+                    width: auto;
+                    flex: 1 1 auto;
+                    padding-left: 1.5rem;
+                    border-bottom-left-radius: 16px;
+                }
+                button {
+                    flex: 0 0 25%;
+                    border-radius: 0;
+                    border-bottom-right-radius: 16px;
+                    background-color: $lightViolet;
+                    border-color: $lightViolet;
+                    &:hover,
+                    &:active {
+                        background-color: $darkViolet !important;
+                        border-color: $darkViolet !important;
+                    }
+                }
+            }
+        }
+    }
+}

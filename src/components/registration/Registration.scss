@@ -1,0 +1,131 @@
+@import '../../style/_variables';
+@import '../../style/_animations';
+
+.cont-login {
+    display: block;
+    width: 315px;
+    margin: auto;
+    .form-login {
+        padding: 2rem;
+        border-radius: 5%;
+        background-color: rgb(212, 212, 212);
+        box-shadow: 0 0 8px #8537867a;
+        .err-form {
+            background-color: #d6ad16;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            line-height: 2.5;
+            height: auto;
+            font-size: 1.5rem;
+            text-align: center;
+            color: black;
+            animation: fade_in 0.5s ease 1;
+            .remove {
+                position: absolute;
+                bottom: 6px;
+                right: 11px;
+                cursor: pointer;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: nowrap;
+            min-width: 100%;
+            border-radius: 0.25rem !important;
+
+            // выбор страны
+            .country-check {
+                flex: 0 0 44%;
+                transition: 0.5s;
+                button {
+                    width: 100%;
+                    border-top-left-radius: 0.25rem !important;
+                    border-top-right-radius: 0 !important;
+                    border-bottom-right-radius: 0 !important;
+                    border-bottom-left-radius: 0.25rem !important;
+                }
+                .dropdown-menu {
+                    width: 100%;
+                    padding: 8px 0;
+                    max-height: 158px;
+                    overflow: auto;
+                    .row-country {
+                        &:hover,
+                        &:active {
+                            background-color: #ddd;
+                            color: #212529;
+                        }
+                        .row-country-img {
+                            width: 20px;
+                            height: 15px;
+                            display: inline-block;
+                            margin-right: 9px;
+                        }
+                    }
+                }
+            }
+            .country-checked {
+                flex: 0 0 26%;
+            }
+            .suggestions {
+                position: absolute;
+                top: 30.4762px;
+                right: 0;
+                list-style: none;
+                background-color: #fff;
+                margin: 0;
+                max-height: 158px;
+                overflow-y: auto;
+                padding: 8px 0;
+                width: 74%;
+                z-index: 1;
+                li {
+                    display: flex;
+                    align-items: center;
+                    height: 35px;
+                    cursor: pointer;
+                    &:hover,
+                    &:active {
+                        background-color: #ddd;
+                        color: #212529;
+                    }
+                }
+                .suggestion-active {
+                    background-color: #ddd;
+                    color: #212529;
+                }
+            }
+            input {
+                transition: 0.5s;
+            }
+        }
+
+        .wide {
+            .country-check {
+                flex: 0 0 100%;
+                button {
+                    width: 100%;
+                }
+            }
+            input {
+                padding: 0;
+                border: 0;
+                width: 0;
+            }
+        }
+
+        button {
+            background-color: $lightViolet !important;
+            border-color: $lightViolet !important;
+            border-radius: 16px;
+            &:hover,
+            &:active {
+                background-color: $darkViolet !important;
+                border-color: $darkViolet !important;
+            }
+        }
+    }
+}

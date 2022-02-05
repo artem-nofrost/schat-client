@@ -1,0 +1,306 @@
+$dark1: #222226;
+$dark2: #333336;
+$dark3: #555556;
+$dark4: #b785b8;
+$dark5: #b785b8;
+$dark6: #b785b8;
+
+// цвет ховера, инпута+блоков, иконок, текста ссылок
+$dark-hover: #444446;
+$dark-input-block: #444446;
+$dark-input-block2: #666666;
+$dark-icon: #727272;
+$dark-link-text: #777777;
+
+// текст белый и затемнённый
+$text-color: #ffff;
+$text-dark-color: #a4a4a4;
+
+// тень блоков
+$box-shadow-dark: 0 20px 40px 0 #0000004d;
+
+body {
+    .dark {
+        background: $dark1 !important;
+        animation: fade_in 0.25s ease 1;
+        // навбар
+        .navbar {
+            .dark-img {
+                filter: brightness(2) contrast(0.4);
+            }
+            #main-search {
+                color: $text-color;
+                background: $dark-input-block;
+                border-color: $dark-input-block !important;
+            }
+            #search-btn {
+                &:hover {
+                    background: $dark-hover;
+                }
+                svg {
+                    fill: $dark-icon;
+                }
+            }
+            .user-circle-2 {
+                div {
+                    &:hover {
+                        background: $dark-hover !important;
+                    }
+                    .nav-logo {
+                        fill: $dark-icon;
+                    }
+                }
+            }
+            .user-circle {
+                &:hover {
+                    background-color: $dark-hover !important;
+                }
+                div {
+                    background-color: $dark-icon !important;
+                    svg {
+                        text {
+                            fill: $text-dark-color;
+                        }
+                    }
+                }
+            }
+
+            .account-options {
+                background: $dark2;
+                box-shadow: $box-shadow-dark;
+                a {
+                    &:hover {
+                        background: $dark-hover;
+                    }
+                    div {
+                        color: $text-color !important;
+                        .account-email-line {
+                            color: $text-dark-color !important;
+                        }
+                    }
+                }
+                .out {
+                    color: $text-color !important;
+                    &:hover {
+                        background: $dark-hover;
+                    }
+                    div {
+                        color: $text-color !important;
+                    }
+                }
+                hr {
+                    background: $dark-input-block;
+                }
+                .lang {
+                    .dropbtn-private {
+                        color: $text-color;
+                        &:hover {
+                            background-color: $dark-hover;
+                            box-shadow: $box-shadow-dark;
+                        }
+                    }
+                    .active-lang {
+                        background-color: $dark-hover;
+                        box-shadow: $box-shadow-dark;
+                    }
+                }
+            }
+            .dropdown-lang {
+                .dropbtn {
+                    color: $dark-link-text !important;
+                    &::after {
+                        color: $dark-link-text;
+                    }
+                }
+                .dropdown-content2 {
+                    background: $dark2 !important;
+                    .first-lang {
+                        &:hover {
+                            background-color: $dark-hover;
+                        }
+                        span {
+                            color: $text-dark-color;
+                        }
+                    }
+                    .last-lang {
+                        &:hover {
+                            background-color: $dark-hover;
+                        }
+                        span {
+                            color: $text-dark-color;
+                        }
+                    }
+                }
+            }
+            .react-toggle-thumb {
+                left: 27px !important;
+            }
+        }
+
+        //главная
+        .main-caption {
+            color: $text-color !important;
+        }
+        .main-text {
+            color: $text-dark-color !important;
+        }
+
+        // регистрация/логинизация
+        .cont-login {
+            .caption {
+                color: $text-dark-color;
+            }
+            .form-login {
+                background-color: $dark2;
+                color: $text-color;
+                box-shadow: $box-shadow-dark;
+                input {
+                    color: $text-color;
+                    background: $dark-input-block;
+                    border-color: $dark-input-block !important;
+                }
+                .dropdown-menu {
+                    background-color: $dark3;
+                    .row-country {
+                        color: $text-color;
+                        &:hover {
+                            color: $text-color !important;
+                            background: $dark-input-block2 !important;
+                        }
+                    }
+                }
+                .suggestions {
+                    background-color: $dark3;
+                    li {
+                        color: $text-color;
+                        &:hover {
+                            color: $text-color !important;
+                            background: $dark-input-block2 !important;
+                        }
+                    }
+                }
+                .suggestion-active {
+                    background-color: $dark-input-block2 !important;
+                    color: $text-color !important;
+                }
+            }
+            .follow-reg {
+                color: $dark-link-text !important;
+            }
+        }
+
+        // поиск
+        .chat-container-search {
+            background-color: $dark2;
+            box-shadow: $box-shadow-dark;
+            .number-found {
+                color: $text-color;
+                .found {
+                    color: $text-dark-color;
+                }
+            }
+            input {
+                color: $text-color;
+                background: $dark-input-block;
+                border-color: $dark-input-block !important;
+            }
+            .card {
+                background: $dark-input-block;
+                color: $text-color;
+                p {
+                    color: $text-dark-color !important;
+                }
+            }
+        }
+
+        // профиль
+        // поиск
+        .chat-container-profile {
+            background-color: $dark2;
+            box-shadow: $box-shadow-dark;
+            .profile-list-group {
+                background: $dark-input-block;
+                .list-group-item {
+                    background: rgba(255, 255, 255, 0);
+                    span {
+                        color: $text-dark-color !important;
+                    }
+                    .data-profile {
+                        color: $text-color !important;
+                    }
+                }
+            }
+            .card {
+                background: $dark-input-block;
+                color: $text-color;
+                p {
+                    color: $text-dark-color !important;
+                }
+            }
+        }
+
+        .chat-container-chat {
+            background-color: $dark2;
+            box-shadow: $box-shadow-dark;
+            p {
+                color: $text-dark-color !important;
+            }
+            .card {
+                background: $dark-input-block;
+                color: $text-color;
+                .name-msg {
+                    color: $text-color !important;
+                }
+                &:hover {
+                    background: $dark-input-block2;
+                }
+            }
+        }
+        .chat-container-msg {
+            background-color: $dark2;
+            box-shadow: $box-shadow-dark;
+            .cont-msg {
+                background: $dark2;
+                .msg-username {
+                    color: $text-color !important;
+                }
+                hr {
+                    background: $dark-input-block2;
+                }
+                input {
+                    color: $text-color;
+                    background: $dark-input-block;
+                    border-color: $dark-input-block !important;
+                }
+                .message-out {
+                    .current-msg {
+                        background: #853786 !important;
+                        box-shadow: 0 2px 4px 0 #0000004d !important;
+                    }
+                    span {
+                        color: $text-color;
+                    }
+                    .current-msg-time {
+                        span {
+                            color: $text-dark-color !important;
+                        }
+                    }
+                }
+                .message-in {
+                    .current-msg {
+                        background: $dark1 !important;
+                        box-shadow: 0 2px 4px 0 #0000004d !important;
+                    }
+                    span {
+                        color: $text-color;
+                    }
+                    .current-msg-time {
+                        span {
+                            color: $text-dark-color !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
