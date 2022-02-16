@@ -2,6 +2,7 @@ import { LOAD_DIALOGS } from './actions';
 import { UPDATE_DIALOGS } from './actions';
 import { LOAD_MESSAGES } from './actions';
 import { UPDATE_MESSAGES } from './actions';
+import { LOAD_MORE_MESSAGES } from './actions';
 
 const initialState = {
     dialogs: new Map(),
@@ -43,6 +44,18 @@ export function chatReducer(state = initialState, action) {
                 messages: new Map(state.messages).set(action.payload.user, {
                     ...prevData,
                     messages: [...prevData.messages, action.payload.data],
+                }),
+            };
+        case LOAD_MORE_MESSAGES:
+            let prevDataUpload = state.messages.get(action.payload.user);
+            return {
+                ...state,
+                messages: new Map(state.messages).set(action.payload.user, {
+                    ...prevDataUpload,
+                    messages: [
+                        ...prevDataUpload.messages,
+                        ...action.payload.messages,
+                    ],
                 }),
             };
         default:

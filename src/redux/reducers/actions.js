@@ -7,6 +7,7 @@ export const LOAD_DIALOGS = 'LOAD_DIALOGS';
 export const UPDATE_DIALOGS = 'UPDATE_DIALOGS';
 export const LOAD_MESSAGES = 'LOAD_MESSAGES';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
+export const LOAD_MORE_MESSAGES = 'LOAD_MORE_MESSAGES';
 
 export const setUserData = (user) => ({
     type: SET_USER,
@@ -50,5 +51,10 @@ export const loadMessages = (state) => ({
 
 export const updateMessages = (state) => ({
     type: UPDATE_MESSAGES,
+    payload: state,
+});
+
+export const loadMoreMessages = (state) => ({
+    type: LOAD_MORE_MESSAGES,
     payload: state,
 });

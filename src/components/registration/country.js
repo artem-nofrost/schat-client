@@ -5,7 +5,7 @@ import './Registration.scss';
 import { Container, DropdownButton, InputGroup } from 'react-bootstrap';
 import { FixedSizeList as List } from 'react-window';
 import { useTranslation } from 'react-i18next';
-import City from './city';
+import City from './City';
 
 const CountryAndCity = ({ updateCountry, updateCity, isError }) => {
     const { t, i18n } = useTranslation();

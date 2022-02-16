@@ -10,16 +10,22 @@ import { useTranslation } from 'react-i18next';
 import { Container, Button } from 'react-bootstrap';
 import { socket } from '../../server/socket';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadMessages, updateMessages } from '../../redux/reducers/actions';
+import {
+    loadMessages,
+    loadMoreMessages,
+    updateMessages,
+} from '../../redux/reducers/actions';
 import { dater } from '../../lib/date';
 import { useHistory, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import InputMessage from './Input';
 
 const Chat = () => {
     const { t, i18n } = useTranslation();
     const [error, setError] = useState(null);
     const [fetching, setFetching] = useState(true);
     const [newMessage, setNewMessage] = useState('');
+    const [isLoadMore, setIsLoadMore] = useState(false);
 
     let { id } = useParams();
     const history = useHistory();
@@ -28,12 +34,47 @@ const Chat = () => {
     const dispatch = useDispatch();
 
     const ref = useRef();
-    const refInput = useRef();
+    const refList = useRef();
+
+    // подгружаем сообщения
+    const loadMore = useCallback(async () => {
+        let oldScrollTop = refList.current.scrollTop;
+        let oldScrollHeight = refList.current.scrollHeight;
+        setIsLoadMore(true);
+        socket.emit('load_more_chat', id, chatMessages.get(id).messages.length);
+
+        const listener = (data) => {
+            if (data.error) {
+                setError(data.error);
+                return;
+            } else if (data.hasOwnProperty('errorMessage')) {
+                history.push('/chat');
+            } else {
+                let data_messages = {
+                    user: data.companion_id,
+                    messages: data.messages,
+                };
+                dispatch(loadMoreMessages(data_messages));
+            }
+            let xex =
+                oldScrollTop + (refList.current.scrollHeight - oldScrollHeight);
+            refList.current.scrollTo(0, xex);
+
+            setIsLoadMore(false);
+        };
+        socket.once('load_more_chat', listener);
+    }, [chatMessages, dispatch, history, id]);
+
+    const listScroll = useCallback(() => {
+        if (refList.current.scrollTop <= 0 && !isLoadMore) {
+            loadMore();
+        }
+    }, [isLoadMore, loadMore]);
 
     // получаем список сообщений и данные о собеседнике
     useEffect(() => {
         if (id !== user_id) {
-            socket.emit('current_chat', id, 0, false);
+            socket.emit('current_chat', id);
 
             const listener = (data) => {
                 if (data.error) {
@@ -60,24 +101,21 @@ const Chat = () => {
         } else {
             history.push('/chat');
         }
+        // }
     }, [dispatch, history, id, user_id]);
 
     // прокрутка перед формированием дома
     useLayoutEffect(() => {
         setTimeout(() => {
-            if (ref.current && chatMessages.get(id).messages) {
+            if (ref.current && chatMessages.get(id)?.messages && !isLoadMore) {
                 ref.current.scrollIntoView({
                     block: 'end',
                     behavior: 'auto',
                 });
             }
         }, 10);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chatMessages, id]);
-
-    // отслеживаем изменения в инпуте
-    const onHandleChange = useCallback((e) => {
-        setNewMessage(e.target.value);
-    }, []);
 
     // новое сообщение
     useEffect(() => {
@@ -98,6 +136,11 @@ const Chat = () => {
         socket.on('message', listener);
         return () => socket.off('message', listener);
     }, [dispatch]);
+
+    const changeInputMessage = useCallback(
+        (message) => setNewMessage(message),
+        [],
+    );
 
     // отправляем сообщение
     const onHandleSubmit = useCallback(() => {
@@ -174,7 +217,11 @@ const Chat = () => {
                             <div className="msglist-cont">
                                 {chatMessages.get(id).messages.length ? (
                                     <div className="msglist-pos">
-                                        <div className="overflow-auto">
+                                        <div
+                                            className="overflow-auto"
+                                            ref={refList}
+                                            onScroll={listScroll}
+                                        >
                                             {chatMessages
                                                 .get(id)
                                                 .messages.sort(function (a, b) {
@@ -219,17 +266,10 @@ const Chat = () => {
                             </div>
 
                             <div className="row-msg-input">
-                                <input
-                                    type="text"
-                                    name=""
-                                    id="message-input"
-                                    className="form-control"
-                                    autoComplete="off"
-                                    placeholder={t('messages.message')}
-                                    value={newMessage}
-                                    onChange={onHandleChange}
-                                    onKeyPress={handleKeyPress}
-                                    ref={refInput}
+                                <InputMessage
+                                    newMessage={newMessage}
+                                    inputMessage={changeInputMessage}
+                                    handleKeyPress={handleKeyPress}
                                 />
                                 <Button
                                     id="btn-send"

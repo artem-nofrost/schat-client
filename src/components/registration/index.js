@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { useTranslation } from 'react-i18next';
 import './Registration.scss';
-import CountryAndCity from './country';
+import CountryAndCity from './Country';
 
 const Registration = () => {
     const { t, i18n } = useTranslation();
