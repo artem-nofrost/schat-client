@@ -1,20 +1,26 @@
-import React from 'react';
-// import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import { socket } from '../../server/socket';
+import { socket } from '../../server/socket';
 
 function MessagesLogo() {
-    // const [unreadMessage, setUnredMessage] = useState(0);
-    // const email = useSelector((state) => state.user.email);
+    const [unreadMessage, setUnredMessage] = useState(0);
+    const email = useSelector((state) => state.user.email);
+    const isBottom = useSelector((state) => state.chat.bottom_dialog);
 
-    // useEffect(() => {
-    //     socket.emit('countunread', email);
-    //     const listener = (data) => {
-    //         setUnredMessage(data);
-    //     };
-    //     socket.on('countunread', listener);
-    //     return () => socket.off('chatlist', listener);
-    // }, [email]);
+    useEffect(() => {
+        socket.emit('countunread', email);
+    }, [email]);
+
+    useEffect(() => {
+        const listener = (data, read) => {
+            if (!isBottom || read) {
+                setUnredMessage(data);
+            }
+        };
+        socket.on('countunread', listener);
+        return () => socket.off('countunread', listener);
+    }, [isBottom]);
 
     return (
         <div className="profile-logo logos-nav d-flex ml-3">
@@ -34,11 +40,11 @@ function MessagesLogo() {
                             >
                                 <path d="M18 12.5a1.5 1.5 0 1 1 .001-3.001A1.5 1.5 0 0 1 18 12.5m-6 0a1.5 1.5 0 1 1 .001-3.001A1.5 1.5 0 0 1 12 12.5m-6 0a1.5 1.5 0 1 1 .001-3.001A1.5 1.5 0 0 1 6 12.5M12 0C5.925 0 1 4.925 1 11c0 2.653.94 5.086 2.504 6.986L2 24l5.336-3.049A10.93 10.93 0 0 0 12 22c6.075 0 11-4.925 11-11S18.075 0 12 0"></path>
                             </svg>
-                            {/* {unreadMessage ? (
+                            {unreadMessage ? (
                                 <div className="unread-message">
                                     <span>{unreadMessage}</span>
                                 </div>
-                            ) : null} */}
+                            ) : null}
                         </div>
                     </div>
                 </Link>

@@ -41,8 +41,6 @@ const CountryAndCity = ({ updateCountry, updateCity, isError }) => {
             if (countriesList[id].country_code !== checkedCountry) {
                 updateCountry(countriesList[id].country_code);
                 setLoadCities(true);
-            } else {
-                console.log('та же самая страна');
             }
 
             // имитируем клик по документу, чтоб скрыть бутстраповский элемент

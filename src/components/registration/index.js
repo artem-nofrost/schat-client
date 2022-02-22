@@ -128,8 +128,11 @@ const Registration = () => {
                     />
 
                     <Form.Group size="lg">
-                        <Form.Label>{t('auth.gender')}</Form.Label>
+                        <Form.Label className="w-100">
+                            {t('auth.gender')}
+                        </Form.Label>
                         <Form.Check
+                            inline
                             type="radio"
                             label={t('auth.male')}
                             name="user[gender]"
@@ -141,6 +144,7 @@ const Registration = () => {
                             }
                         />
                         <Form.Check
+                            inline
                             type="radio"
                             label={t('auth.female')}
                             name="user[gender]"

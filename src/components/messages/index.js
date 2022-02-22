@@ -13,7 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     loadMessages,
     loadMoreMessages,
+    setBottomDialog,
     updateMessages,
+    updateReadMessage,
 } from '../../redux/reducers/actions';
 import { dater } from '../../lib/date';
 import { useHistory, useParams } from 'react-router-dom';
@@ -56,9 +58,9 @@ const Chat = () => {
                 };
                 dispatch(loadMoreMessages(data_messages));
             }
-            let xex =
+            let scrollNewPosition =
                 oldScrollTop + (refList.current.scrollHeight - oldScrollHeight);
-            refList.current.scrollTo(0, xex);
+            refList.current.scrollTo(0, scrollNewPosition);
 
             setIsLoadMore(false);
         };
@@ -66,9 +68,37 @@ const Chat = () => {
     }, [chatMessages, dispatch, history, id]);
 
     const listScroll = useCallback(() => {
+        const checkUnread = (messages) => {
+            if (
+                refList.current.scrollHeight - refList.current.scrollTop >=
+                refList.current.clientHeight
+            ) {
+                dispatch(setBottomDialog(false));
+            } else {
+                dispatch(setBottomDialog(true));
+            }
+            messages
+                .filter((e) => !e.read && !e.its_me)
+                .forEach((e) => {
+                    let bounds = document
+                        .getElementById(e.message_id)
+                        .getBoundingClientRect();
+                    if (bounds.top <= window.innerHeight * 0.85) {
+                        socket.emit('read_message', e.message_id, id);
+                        let data_messages = {
+                            user: id,
+                            message_id: e.message_id,
+                        };
+                        dispatch(updateReadMessage(data_messages));
+                    }
+                });
+        };
+        checkUnread(chatMessages.get(id).messages);
+
         if (refList.current.scrollTop <= 0 && !isLoadMore) {
             loadMore();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoadMore, loadMore]);
 
     // получаем список сообщений и данные о собеседнике
@@ -104,22 +134,18 @@ const Chat = () => {
         // }
     }, [dispatch, history, id, user_id]);
 
-    // прокрутка перед формированием дома
-    useLayoutEffect(() => {
-        setTimeout(() => {
-            if (ref.current && chatMessages.get(id)?.messages && !isLoadMore) {
-                ref.current.scrollIntoView({
-                    block: 'end',
-                    behavior: 'auto',
-                });
-            }
-        }, 10);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chatMessages, id]);
-
     // новое сообщение
     useEffect(() => {
         const listener = (data) => {
+            if (
+                refList.current.scrollHeight - refList.current.scrollTop >=
+                refList.current.clientHeight
+            ) {
+                setIsLoadMore(true);
+            } else {
+                dispatch(setBottomDialog(true));
+            }
+
             dispatch(
                 updateMessages({
                     user: data[0].companion_id,
@@ -127,15 +153,47 @@ const Chat = () => {
                         message_id: data[0].message_id,
                         its_me: data[0].its_me,
                         message: data[0].message,
-                        read: data[0].unread_messages,
+                        read: !data[0].unread_messages,
                         time: data[0].time,
                     },
                 }),
             );
+            setIsLoadMore(false);
         };
         socket.on('message', listener);
         return () => socket.off('message', listener);
     }, [dispatch]);
+
+    // обновление прочитанности
+    useEffect(() => {
+        const listener = (data) => {
+            if (
+                refList.current.scrollHeight - refList.current.scrollTop >=
+                refList.current.clientHeight
+            ) {
+                setIsLoadMore(true);
+            } else {
+                dispatch(setBottomDialog(true));
+            }
+
+            if (data.error) {
+                setError(data.error);
+                return;
+            } else if (data.hasOwnProperty('errorMessage')) {
+                history.push('/chat');
+            } else {
+                let data_messages = {
+                    user: id,
+                    message_id: data[0].message_id,
+                };
+                dispatch(updateReadMessage(data_messages));
+            }
+            setIsLoadMore(false);
+        };
+
+        socket.on('update_read_message', listener);
+        return () => socket.off('update_read_message', listener);
+    }, [dispatch, history, id]);
 
     const changeInputMessage = useCallback(
         (message) => setNewMessage(message),
@@ -180,6 +238,20 @@ const Chat = () => {
         },
         [onHandleSubmit],
     );
+
+    // прокрутка перед формированием дома
+    useLayoutEffect(() => {
+        setTimeout(() => {
+            if (ref.current && chatMessages.get(id)?.messages && !isLoadMore) {
+                ref.current.scrollIntoView({
+                    block: 'end',
+                    behavior: 'auto',
+                });
+                dispatch(setBottomDialog(true));
+            }
+        }, 10);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chatMessages, id]);
 
     const time = (timestamp) => {
         let newDate = dater(timestamp, i18n.language);
@@ -245,6 +317,32 @@ const Chat = () => {
                                                                     }
                                                                 </span>
                                                                 <div className="current-msg-time text-muted">
+                                                                    {item.its_me && (
+                                                                        <span className="arrows-unread">
+                                                                            <svg
+                                                                                aria-hidden="true"
+                                                                                focusable="false"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 512 512"
+                                                                                className="svg-read"
+                                                                            >
+                                                                                {!item.read ? (
+                                                                                    <path
+                                                                                        fill="#a961aa"
+                                                                                        // fill="red"
+                                                                                        d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"
+                                                                                    ></path>
+                                                                                ) : (
+                                                                                    <path
+                                                                                        fill="#a961aa"
+                                                                                        // fill="green"
+                                                                                        d="M505 174.8l-39.6-39.6c-9.4-9.4-24.6-9.4-33.9 0L192 374.7 80.6 263.2c-9.4-9.4-24.6-9.4-33.9 0L7 302.9c-9.4 9.4-9.4 24.6 0 34L175 505c9.4 9.4 24.6 9.4 33.9 0l296-296.2c9.4-9.5 9.4-24.7.1-34zm-324.3 106c6.2 6.3 16.4 6.3 22.6 0l208-208.2c6.2-6.3 6.2-16.4 0-22.6L366.1 4.7c-6.2-6.3-16.4-6.3-22.6 0L192 156.2l-55.4-55.5c-6.2-6.3-16.4-6.3-22.6 0L68.7 146c-6.2 6.3-6.2 16.4 0 22.6l112 112.2z"
+                                                                                    ></path>
+                                                                                )}
+                                                                            </svg>
+                                                                        </span>
+                                                                    )}
+
                                                                     <span>
                                                                         {time(
                                                                             item.time,
