@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import useFocusedPage from '../../hooks/useFocusedPage';
 import { socket } from '../../server/socket';
 
 function MessagesLogo() {
     const [unreadMessage, setUnredMessage] = useState(0);
     const email = useSelector((state) => state.user.email);
-    const isBottom = useSelector((state) => state.chat.bottom_dialog);
+    const isFocusedPage = useFocusedPage();
 
     useEffect(() => {
         socket.emit('countunread', email);
@@ -14,13 +15,13 @@ function MessagesLogo() {
 
     useEffect(() => {
         const listener = (data, read) => {
-            if (!isBottom || read) {
+            if (!isFocusedPage || read) {
                 setUnredMessage(data);
             }
         };
         socket.on('countunread', listener);
         return () => socket.off('countunread', listener);
-    }, [isBottom]);
+    }, [isFocusedPage]);
 
     return (
         <div className="profile-logo logos-nav d-flex ml-3">

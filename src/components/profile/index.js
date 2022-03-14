@@ -11,7 +11,7 @@ const Profile = () => {
     const [currentUser, setCurrentUser] = useState({});
     const [fetching, setFetching] = useState(true);
     const { t } = useTranslation();
-    let { id } = useParams();
+    const { id } = useParams();
 
     useEffect(() => {
         const getUser = async () => {

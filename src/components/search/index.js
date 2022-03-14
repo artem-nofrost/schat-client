@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    setLoadUsers,
-    setUploadUsers,
-    setNumUsers,
+    updateUsers,
+    addUsers,
+    setUsersNum,
 } from '../../redux/reducers/actions';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import './Search.scss';
@@ -46,7 +46,7 @@ const Search = () => {
             } else {
                 const data = userData[1];
                 setPeople((people) => [...people, ...data]);
-                dispatch(setUploadUsers(data));
+                dispatch(addUsers(data));
             }
         }
     }, [dispatch, fetching, numPeople, peopleLength]);
@@ -84,8 +84,8 @@ const Search = () => {
                     const data = userData[1];
                     setNumPeople(data[1]);
                     setPeople(data[0]);
-                    dispatch(setLoadUsers(data[0]));
-                    dispatch(setNumUsers(data[1]));
+                    dispatch(updateUsers(data[0]));
+                    dispatch(setUsersNum(data[1]));
                 }
             }
 

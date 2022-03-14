@@ -14,19 +14,11 @@ const Connect = (props) => {
         if (isAuth) {
             socket.emit('online', email, (response) => {
                 if (response.status === 'ok') {
-                    dispatch(
-                        setSocketState({
-                            state: 'connected',
-                        }),
-                    );
+                    dispatch(setSocketState('connected'));
                 }
             });
         } else {
-            dispatch(
-                setSocketState({
-                    state: 'connected',
-                }),
-            );
+            dispatch(setSocketState('connected'));
         }
     }, [dispatch, email, isAuth]);
 

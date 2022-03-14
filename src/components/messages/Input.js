@@ -1,30 +1,52 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import './Messages.scss';
+import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-const InputMessage = ({ newMessage, handleKeyPress, inputMessage }) => {
+const InputMessage = ({ addNewMessage }) => {
     const { t } = useTranslation();
+    const [newMessage, setNewMessage] = useState('');
 
-    // отслеживаем изменения в инпуте
-    const onHandleChange = useCallback(
+    // отправляем сообщение
+    const onHandleSubmit = useCallback(() => {
+        if (newMessage) {
+            addNewMessage(newMessage);
+            setNewMessage('');
+        }
+    }, [addNewMessage, newMessage]);
+
+    // отправляем сообщение(с помощью клавиатуры)
+    const handleKeyPress = useCallback(
         (e) => {
-            inputMessage(e.target.value);
+            if (e.key === 'Enter') {
+                onHandleSubmit();
+            }
         },
-        [inputMessage],
+        [onHandleSubmit],
     );
 
+    // отслеживаем изменения в инпуте
+    const onHandleChange = useCallback((e) => {
+        setNewMessage(e.target.value);
+    }, []);
+
     return (
-        <input
-            type="text"
-            name=""
-            id="message-input"
-            className="form-control"
-            autoComplete="off"
-            placeholder={t('messages.message')}
-            value={newMessage}
-            onChange={onHandleChange}
-            onKeyPress={handleKeyPress}
-        />
+        <div className="row-msg-input">
+            <input
+                type="text"
+                name=""
+                id="message-input"
+                className="form-control"
+                autoComplete="off"
+                placeholder={t('messages.message')}
+                value={newMessage}
+                onChange={onHandleChange}
+                onKeyPress={handleKeyPress}
+            />
+            <Button id="btn-send" onClick={onHandleSubmit} variant="primary">
+                {t('messages.send')}
+            </Button>
+        </div>
     );
 };
 

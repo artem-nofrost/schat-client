@@ -1,72 +1,67 @@
 export const SET_USER = 'SET_USER';
 export const SET_SOCKET_STATE = 'SET_SOCKET_STATE';
-export const SET_LOAD_USERS = 'SET_LOAD_USERS';
-export const SET_UPLOAD_USERS = 'SET_UPLOAD_USERS';
-export const SET_NUM_USERS = 'SET_NUM_USERS';
-export const LOAD_DIALOGS = 'LOAD_DIALOGS';
+export const UPDATE_USERS = 'UPDATE_USERS';
+export const ADD_USERS = 'ADD_USERS';
+export const SET_USERS_NUM = 'SET_USERS_NUM';
 export const UPDATE_DIALOGS = 'UPDATE_DIALOGS';
-export const LOAD_MESSAGES = 'LOAD_MESSAGES';
+export const UPDATE_DIALOG = 'UPDATE_DIALOG';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
-export const LOAD_MORE_MESSAGES = 'LOAD_MORE_MESSAGES';
-export const UPDATE_READ_MESSAGE = 'UPDATE_READ_MESSAGE';
-export const SET_BOTTOM_DIALOG = 'SET_BOTTOM_DIALOG';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const ADD_MESSAGES = 'ADD_MESSAGES';
+export const UPDATE_MESSAGE_READABILITY = 'UPDATE_MESSAGE_READABILITY';
 
-export const setUserData = (user) => ({
+export const setUserData = (payload) => ({
     type: SET_USER,
-    payload: user,
+    payload,
 });
 
-export const setSocketState = (state) => ({
+export const setSocketState = (payload) => ({
     type: SET_SOCKET_STATE,
-    payload: state,
+    payload,
 });
 
-export const setLoadUsers = (state) => ({
-    type: SET_LOAD_USERS,
-    payload: state,
+export const updateUsers = (payload) => ({
+    type: UPDATE_USERS,
+    payload,
 });
 
-export const setUploadUsers = (state) => ({
-    type: SET_UPLOAD_USERS,
-    payload: state,
+export const addUsers = (payload) => ({
+    type: ADD_USERS,
+    payload,
 });
 
-export const setNumUsers = (state) => ({
-    type: SET_NUM_USERS,
-    payload: state,
+export const setUsersNum = (payload) => ({
+    type: SET_USERS_NUM,
+    payload,
 });
 
-export const loadDialogs = (state) => ({
-    type: LOAD_DIALOGS,
-    payload: state,
-});
-
-export const updateDialogs = (state) => ({
+// chat
+export const updateDialogs = (payload) => ({
     type: UPDATE_DIALOGS,
-    payload: state,
+    payload,
 });
 
-export const loadMessages = (state) => ({
-    type: LOAD_MESSAGES,
-    payload: state,
+export const updateDialog = (payload) => ({
+    type: UPDATE_DIALOG,
+    payload,
 });
 
-export const updateMessages = (state) => ({
+export const updateMessages = (payload) => ({
     type: UPDATE_MESSAGES,
-    payload: state,
+    payload,
 });
 
-export const loadMoreMessages = (state) => ({
-    type: LOAD_MORE_MESSAGES,
-    payload: state,
+export const addMessage = (payload) => ({
+    type: ADD_MESSAGE,
+    payload,
 });
 
-export const updateReadMessage = (state) => ({
-    type: UPDATE_READ_MESSAGE,
-    payload: state,
+export const addMessages = (payload) => ({
+    type: ADD_MESSAGES,
+    payload,
 });
 
-export const setBottomDialog = (state) => ({
-    type: SET_BOTTOM_DIALOG,
-    payload: state,
+export const updateMessageReadability = (payload) => ({
+    type: UPDATE_MESSAGE_READABILITY,
+    payload,
 });

@@ -1,30 +1,24 @@
-import { LOAD_DIALOGS } from './actions';
-import { UPDATE_DIALOGS } from './actions';
-import { LOAD_MESSAGES } from './actions';
-import { UPDATE_MESSAGES } from './actions';
-import { LOAD_MORE_MESSAGES } from './actions';
-import { UPDATE_READ_MESSAGE } from './actions';
-import { SET_BOTTOM_DIALOG } from './actions';
+import {
+    UPDATE_DIALOGS,
+    UPDATE_DIALOG,
+    UPDATE_MESSAGES,
+    ADD_MESSAGE,
+    ADD_MESSAGES,
+    UPDATE_MESSAGE_READABILITY,
+} from './actions';
 
 const initialState = {
-    bottom_dialog: false,
     dialogs: new Map(),
     messages: new Map(),
 };
 
-// dialogs: newMap() "asdasdasd" => {
-//     lanme:
-//     fname:
-//     online:
-//     // messages: [{message, time}]
-
-// }
-
 export function chatReducer(state = initialState, action) {
+    let prevData;
     switch (action.type) {
-        case LOAD_DIALOGS:
-            return { ...state, dialogs: action.payload };
+        // Диалоги
         case UPDATE_DIALOGS:
+            return { ...state, dialogs: action.payload };
+        case UPDATE_DIALOG:
             let prevDataDialogs = state.dialogs.get(action.payload.user);
             return {
                 ...state,
@@ -33,15 +27,16 @@ export function chatReducer(state = initialState, action) {
                     ...action.payload.data,
                 }),
             };
-        case LOAD_MESSAGES:
+        // Сообщения
+        case UPDATE_MESSAGES:
             return {
                 ...state,
                 messages: new Map(state.messages).set(action.payload.user, {
                     ...action.payload.data,
                 }),
             };
-        case UPDATE_MESSAGES:
-            let prevData = state.messages.get(action.payload.user);
+        case ADD_MESSAGE:
+            prevData = state.messages.get(action.payload.user);
             return {
                 ...state,
                 messages: new Map(state.messages).set(action.payload.user, {
@@ -49,21 +44,21 @@ export function chatReducer(state = initialState, action) {
                     messages: [...prevData.messages, action.payload.data],
                 }),
             };
-        case LOAD_MORE_MESSAGES:
-            let prevDataUpload = state.messages.get(action.payload.user);
+        case ADD_MESSAGES:
+            prevData = state.messages.get(action.payload.user);
             return {
                 ...state,
                 messages: new Map(state.messages).set(action.payload.user, {
-                    ...prevDataUpload,
+                    ...prevData,
                     messages: [
-                        ...prevDataUpload.messages,
+                        ...prevData.messages,
                         ...action.payload.messages,
                     ],
                 }),
             };
-        case UPDATE_READ_MESSAGE:
-            let prevDataMessages = state.messages.get(action.payload.user);
-            let changeMessage = prevDataMessages.messages.map((message) => {
+        case UPDATE_MESSAGE_READABILITY:
+            prevData = state.messages.get(action.payload.user);
+            let changeMessage = prevData.messages.map((message) => {
                 if (message.message_id === action.payload.message_id) {
                     return { ...message, read: true };
                 } else {
@@ -73,12 +68,10 @@ export function chatReducer(state = initialState, action) {
             return {
                 ...state,
                 messages: new Map(state.messages).set(action.payload.user, {
-                    ...prevDataMessages,
+                    ...prevData,
                     messages: [...changeMessage],
                 }),
             };
-        case SET_BOTTOM_DIALOG:
-            return { ...state, bottom_dialog: action.payload };
         default:
             return state;
     }

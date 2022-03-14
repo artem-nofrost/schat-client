@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, Col, Row, Container } from 'react-bootstrap';
 import { socket } from '../../server/socket';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadDialogs, updateDialogs } from '../../redux/reducers/actions';
+import { updateDialogs, updateDialog } from '../../redux/reducers/actions';
 import { dater } from '../../lib/date';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -34,16 +34,16 @@ const Chat = () => {
                     last_msg_time: data[i].last_msg_time,
                     last_msg_id: data[i].last_msg_id,
                     last_msg: data[i].last_msg,
-                    // unread_messages: data[i].unread_messages,
+                    unread_messages: data[i].unread_messages,
                     its_me: data[i].its_me,
-                    // count_unread: 0,
+                    count_unread: data[i].count_unread,
                     fname: data[i].fname,
                     lname: data[i].lname,
                     is_online: data[i].is_online,
                 });
             }
 
-            dispatch(loadDialogs(dataDialogs));
+            dispatch(updateDialogs(dataDialogs));
             setFetching(false);
         };
         socket.on('chatlist', listener);
@@ -56,15 +56,15 @@ const Chat = () => {
             let update_data = {
                 user: data[0].companion_id,
                 data: {
-                    count_unread: 0,
                     last_msg: data[0].message,
                     last_msg_id: data[0].last_message_id,
                     last_msg_time: data[0].time,
-                    // unread_messages: data[0].unread_messages,
+                    unread_messages: data[0].unread_messages,
                     its_me: data[0].its_me,
+                    count_unread: data[0].count_unread,
                 },
             };
-            dispatch(updateDialogs(update_data));
+            dispatch(updateDialog(update_data));
         };
         socket.on('update_chat_list', listener);
         return () => socket.off('update_chat_list', listener);
@@ -76,37 +76,38 @@ const Chat = () => {
             let update_data = {
                 user: data[0].companion_id,
                 data: {
-                    count_unread: 0,
                     last_msg: data[0].message,
                     last_msg_id: data[0].last_message_id,
                     last_msg_time: data[0].time,
-                    // unread_messages: data[0].unread_messages,
+                    unread_messages: data[0].unread_messages,
                     its_me: data[0].its_me,
+                    count_unread: data[0].count_unread,
                     fname: data[0].fname,
                     lname: data[0].lname,
                     is_online: data[0].is_online,
                 },
             };
-            dispatch(updateDialogs(update_data));
+            dispatch(updateDialog(update_data));
         };
         socket.on('add_new_to_chat_list', listener);
         return () => socket.off('add_new_to_chat_list', listener);
     }, [dispatch]);
 
     // обновляем прочитанность сообщения
-    // useEffect(() => {
-    //     const listener = (data) => {
-    //         let update_data = {
-    //             user: data[0].companion_id,
-    //             data: {
-    //                 unread_messages: data[0].unread_messages,
-    //             },
-    //         };
-    //         dispatch(updateDialogs(update_data));
-    //     };
-    //     socket.on('update_chat_list_read', listener);
-    //     return () => socket.off('update_chat_list_read', listener);
-    // }, [dispatch]);
+    useEffect(() => {
+        const listener = (data) => {
+            let update_data = {
+                user: data.companion_id,
+                data: {
+                    unread_messages: data.unread_messages,
+                    count_unread: data.count_unread,
+                },
+            };
+            dispatch(updateDialog(update_data));
+        };
+        socket.on('update_chat_list_read', listener);
+        return () => socket.off('update_chat_list_read', listener);
+    }, [dispatch]);
 
     const time = (timestamp) => {
         let newDate = dater(timestamp, i18n.language);
@@ -164,7 +165,8 @@ const Chat = () => {
                                     >
                                         <Card
                                             className={
-                                                item.value.count_unread
+                                                item.value.unread_messages &&
+                                                !item.value.its_me
                                                     ? 'card-chat mt-4 unread-msg'
                                                     : 'card-chat mt-4'
                                             }
